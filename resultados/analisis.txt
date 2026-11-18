@@ -1,0 +1,83 @@
+ANALISIS DE RESULTADOS - CNN sobre MNIST
+==================================================
+
+1. ARQUITECTURA UTILIZADA
+-------------------------
+- Entrada: imagenes de 28x28x1 (escala de grises, normalizadas a [0,1]).
+- Capa 1: Conv2D 32 filtros, kernel 3x3, activacion ReLU.
+- Capa 2: MaxPooling2D 2x2.
+- Capa 3: Conv2D 64 filtros, kernel 3x3, activacion ReLU.
+- Capa 4: MaxPooling2D 2x2.
+- Capa 5: Flatten.
+- Capa 6: Dense 128 unidades, activacion ReLU.
+- Capa 7: Dropout 0.5 (regularizacion).
+- Capa 8: Dense 10 unidades, activacion softmax (clasificacion de 10 digitos).
+
+Optimizador: Adam (lr=1e-3)
+Funcion de perdida: sparse_categorical_crossentropy
+Metrica: accuracy
+
+2. NUMERO DE PARAMETROS
+-----------------------
+- Total: 225,034
+- Entrenables: 225,034
+- No entrenables: 0
+
+3. METRICAS
+-----------
+- Precision de entrenamiento: 0.9948 (99.48%)
+- Precision de prueba:        0.9913 (99.13%)
+- Perdida de entrenamiento:   0.0156
+- Perdida de prueba:          0.0286
+
+4. MATRIZ DE CONFUSION
+----------------------
+[[ 976    0    0    0    0    0    1    1    2    0]
+ [   0 1133    1    0    0    0    1    0    0    0]
+ [   0    0 1028    0    1    0    0    2    1    0]
+ [   0    0    3  997    0    4    0    2    4    0]
+ [   0    0    0    0  978    0    1    0    2    1]
+ [   2    0    1    3    0  881    2    1    0    2]
+ [   1    1    0    0    3    1  950    0    2    0]
+ [   0    3   11    1    0    0    0 1010    1    2]
+ [   1    0    3    0    0    0    0    1  967    2]
+ [   3    1    0    0    4    2    0    3    3  993]]
+
+5. OBSERVACIONES
+----------------
+- El modelo alcanza una precision razonable en el conjunto de prueba
+  (99.13%).
+- La matriz de confusion muestra que la mayoria de los errores se concentran
+  en pares de digitos visualmente similares (por ejemplo, 4 vs 9, 3 vs 8,
+  5 vs 6, 1 vs 7).
+- Existe una pequena brecha entre precision de entrenamiento y de prueba,
+  lo que indica un ligero sobreajuste (overfitting), mitigado parcialmente
+  por el Dropout del 0.5.
+- Los ejemplos incorrectos suelen corresponder a digitos escritos de forma
+  ambigua, con trazos delgados o desalineados.
+
+6. DOS MEJORAS POSIBLES
+-----------------------
+MEJORA 1: Aumentar la capacidad y profundidad del modelo.
+   Agregar un tercer bloque convolucional (p. ej., Conv2D 128 filtros + 
+   MaxPooling) y/o usar capas residuales (skip connections) para permitir 
+   que la red aprenda caracteristicas mas abstractas y mejore la precision
+   sin sobreajustar excesivamente.
+
+MEJORA 2: Aplicar aumento de datos (data augmentation) y ajuste de 
+   hiperparametros.
+   Usar keras.preprocessing.image.ImageDataGenerator con rotaciones leves, 
+   desplazamientos y zoom para generar mas variantes de entrenamiento. 
+   Combinarlo con EarlyStopping y ReduceLROnPlateau para detener el 
+   entrenamiento cuando la precision de validación deje de mejorar y 
+   reducir la tasa de aprendizaje, lo que ayuda a convergir a un mejor 
+   minimo y reducir el sobreajuste.
+
+Resultados guardados en la carpeta: resultados/
+- arquitectura.txt
+- metricas.txt
+- ejemplos.txt
+- matriz_confusion.png
+- historial_entrenamiento.png
+- ejemplos_correctos.png
+- ejemplos_incorrectos.png

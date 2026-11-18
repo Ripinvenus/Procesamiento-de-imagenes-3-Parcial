@@ -1,0 +1,15 @@
+EJEMPLOS CORRECTAMENTE CLASIFICADOS
+----------------------------------------
+idx=0, real=7, predicho=7, confianza=1.0000
+idx=1, real=2, predicho=2, confianza=1.0000
+idx=2, real=1, predicho=1, confianza=1.0000
+idx=3, real=0, predicho=0, confianza=1.0000
+idx=4, real=4, predicho=4, confianza=1.0000
+
+EJEMPLOS INCORRECTAMENTE CLASIFICADOS
+----------------------------------------
+idx=18, real=3, predicho=8, confianza=0.9555
+idx=320, real=9, predicho=8, confianza=0.8935
+idx=449, real=3, predicho=5, confianza=0.7880
+idx=582, real=8, predicho=2, confianza=0.6366
+idx=625, real=6, predicho=4, confianza=0.9299
